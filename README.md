@@ -39,27 +39,42 @@ Data preparation yang dilakukan adalah sebagai berikut:
   - Membuat dictionary untuk data ‘resto_id’, ‘resto_name’, dan ‘cuisine’
 
 ## Modeling
-Tahapan ini membahas mengenai model machine learning yang digunakan untuk menyelesaikan permasalahan. Anda perlu menjelaskan tahapan dan parameter yang digunakan pada proses pemodelan.
-
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan kelebihan dan kekurangan dari setiap algoritma yang digunakan.
-- Jika menggunakan satu algoritma pada solution statement, lakukan proses improvement terhadap model dengan hyperparameter tuning. **Jelaskan proses improvement yang dilakukan**.
-- Jika menggunakan dua atau lebih algoritma pada solution statement, maka pilih model terbaik sebagai solusi. **Jelaskan mengapa memilih model tersebut sebagai model terbaik**.
+Modelling yang dilakukan adalah sebagai berikut:
+- Model Development dengan Content Based Filtering
+  - TF-IDF Vectorizer
+    - Inisialisasi TfidfVectorizer
+    - Melakukan perhitungan idf pada data cuisine
+    - Mapping array dari fitur index integer ke fitur nama
+    - Melakukan fit lalu ditransformasikan ke bentuk matrix
+    - Melihat ukuran matrix tfidf
+    - Mengubah vektor tf-idf dalam bentuk matriks dengan fungsi todense()
+    - Membuat dataframe untuk melihat tf-idf matrix
+  - Cosine Similarity
+    - Menghitung cosine similarity pada matrix tf-idf
+    - Membuat dataframe dari variabel cosine_sim dengan baris dan kolom berupa nama resto
+    - Melihat similarity matrix pada setiap resto
+  - Mendapatkan Rekomendasi
+    - Mengambil data dengan menggunakan argpartition untuk melakukan partisi secara tidak langsung sepanjang sumbu yang diberikan    
+    - Mengambil data dengan similarity terbesar dari index yang ada
+    - Drop nama_resto agar nama resto yang dicari tidak muncul dalam daftar rekomendasi
+    - Mendapatkan rekomendasi restoran yang mirip dengan KFC
+ 
+- Model Development dengan Collaborative Filtering
+  - Data Understanding
+  - Data Preparation
+    - Mengubah userID & placeID menjadi list tanpa nilai yang sama
+    - Melakukan encoding userID & placeID
+    - Melakukan proses encoding angka ke ke userID & placeID
+    - Mapping userID ke dataframe user
+    - Mapping placeID ke dataframe resto
+    - Mendapatkan jumlah user
+    - Mendapatkan jumlah resto
+    - Mengubah rating menjadi nilai float
+  - Membagi Data untuk Training dan Validasi
+    - Mengacak dataset
+    - Membuat variabel x untuk mencocokkan data user dan resto menjadi satu value
+    - Membuat variabel y untuk membuat rating dari hasil 
+    - Membagi menjadi 80% data train dan 20% data validasi
 
 ## Evaluation
-Pada bagian ini anda perlu menyebutkan metrik evaluasi yang digunakan. Lalu anda perlu menjelaskan hasil proyek berdasarkan metrik evaluasi yang digunakan.
-
-Sebagai contoh, Anda memiih kasus klasifikasi dan menggunakan metrik **akurasi, precision, recall, dan F1 score**. Jelaskan mengenai beberapa hal berikut:
-- Penjelasan mengenai metrik yang digunakan
-- Menjelaskan hasil proyek berdasarkan metrik evaluasi
-
-Ingatlah, metrik evaluasi yang digunakan harus sesuai dengan konteks data, problem statement, dan solusi yang diinginkan.
-
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan formula metrik dan bagaimana metrik tersebut bekerja.
-
-**---Ini adalah bagian akhir laporan---**
-
-_Catatan:_
-- _Anda dapat menambahkan gambar, kode, atau tabel ke dalam laporan jika diperlukan. Temukan caranya pada contoh dokumen markdown di situs editor [Dillinger](https://dillinger.io/), [Github Guides: Mastering markdown](https://guides.github.com/features/mastering-markdown/), atau sumber lain di internet. Semangat!_
-- Jika terdapat penjelasan yang harus menyertakan code snippet, tuliskan dengan sewajarnya. Tidak perlu menuliskan keseluruhan kode project, cukup bagian yang ingin dijelaskan saja.
+- Model ini menggunakan Binary Crossentropy untuk menghitung loss function, Adam (Adaptive Moment Estimation) sebagai optimizer, dan root mean squared error (RMSE) sebagai metrics evaluation. 
